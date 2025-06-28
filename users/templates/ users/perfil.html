@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Perfil do Usuário</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bs-yellow: #ffcc00; /* amarelo principal */
+            --bs-black: #000000;  /* preto secundário */
+            --bs-white: #ffffff;  /* branco terciário */
+            --bs-accent: #0dcaf0; /* azul claro para detalhes e botões */
+        }
+
+        body {
+            background-color: var(--bs-black);
+            color: var(--bs-white);
+            min-height: 100vh;
+        }
+
+        .navbar, .footer {
+            background-color: var(--bs-yellow);
+        }
+
+        .card {
+            background-color: #222; /* fundo escuro para o card */
+            border: 2px solid var(--bs-yellow);
+        }
+
+        .btn-primary {
+            background-color: var(--bs-accent);
+            border-color: var(--bs-accent);
+            color: var(--bs-black);
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: #0bb9db;
+            border-color: #0bb9db;
+            color: var(--bs-white);
+        }
+
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--bs-yellow);
+            margin-bottom: 1rem;
+            background-color: var(--bs-white);
+        }
+
+        .section-title {
+            color: var(--bs-yellow);
+            font-weight: 700;
+            border-bottom: 2px solid var(--bs-accent);
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
+        }
+
+        a.text-accent {
+            color: var(--bs-accent);
+            text-decoration: none;
+        }
+        a.text-accent:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-black" href="#">BicoOw</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-black" href="#">Início</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black" href="#">Serviços</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black" href="#">Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary text-black ms-3" href="#">Sair</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container my-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card p-4 shadow-lg">
+                <div class="text-center">
+                    <img src="{% static 'users/default-profile.png' %}" alt="Foto do usuário" class="profile-img" />
+                    <h2 class="mb-1">{{ user.first_name }} {{ user.last_name }}</h2>
+                    <p class="text-muted">{{ user.email }}</p>
+                </div>
+
+                <hr class="my-4" />
+
+                <div>
+                    <h4 class="section-title">Informações Pessoais</h4>
+                    <ul class="list-unstyled">
+                        <li><strong>Nome:</strong> {{ user.first_name }} {{ user.last_name }}</li>
+                        <li><strong>Email:</strong> {{ user.email }}</li>
+                        <li><strong>Telefone:</strong> {{ user.phone_number|default:"Não informado" }}</li>
+                        <li><strong>Tipo de Usuário:</strong>
+                            {% if user.is_cliente %}
+                                Cliente
+                            {% elif user.is_prestador %}
+                                Prestador
+                            {% else %}
+                                Não definido
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="{% url 'users:edit_profile' user.id %}" class="btn btn-primary">Editar Perfil</a>
+                    <a href="{% url 'users:change_password' %}" class="btn btn-outline-warning text-white">Alterar Senha</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<footer class="footer text-center py-3">
+    <div class="container">
+        <small class="text-black">&copy; 2025 BicoOw - Todos os direitos reservados.</small>
+    </div>
+</footer>
+
+<!-- Bootstrap JS CDN (popper + bootstrap) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>

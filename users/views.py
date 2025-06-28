@@ -1,6 +1,13 @@
 from rest_framework import generics, permissions, filters
 from .models import User
 from .serializers import UserSerializer, RegisterSerializer
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def perfil_view(request):
+    user = request.user
+    return render(request, 'users/perfil.html', {'user': user})
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
