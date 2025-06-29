@@ -3,7 +3,7 @@
 **BicoOw** é um MVP (Produto Mínimo Viável) de uma plataforma para conectar clientes a prestadores de serviços, semelhante ao GetNinjas.
 
 ## 📦 Estrutura do Projeto
-
+```
 bicoow/
 ├── manage.py
 ├── bicoow/ # Configurações globais do Django
@@ -11,7 +11,7 @@ bicoow/
 ├── cervice/ # Serviços oferecidos (ex: elétrica, limpeza)
 ├── appointments/ # Agendamentos entre clientes e prestadores
 ├── dore/ # Utilitários comuns (utils, mixins, permissions etc)
-
+```
 
 ## ⚙️ Requisitos
 
