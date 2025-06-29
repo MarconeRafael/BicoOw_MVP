@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% load static %}
+
 {% block title %}Cadastro{% endblock %}
 
 {% block content %}
@@ -11,25 +14,35 @@
         {% endfor %}
     {% endif %}
 
-    <form method="POST">
+    <form method="POST" novalidate id="register-form">
         {% csrf_token %}
         <div class="mb-3">
             <label for="first_name" class="form-label">Nome</label>
-            <input type="text" class="form-control" name="first_name" required />
+            <input type="text" class="form-control" name="first_name" required autocomplete="given-name" />
         </div>
         <div class="mb-3">
             <label for="last_name" class="form-label">Sobrenome</label>
-            <input type="text" class="form-control" name="last_name" required />
+            <input type="text" class="form-control" name="last_name" required autocomplete="family-name" />
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>
-            <input type="email" class="form-control" name="email" required />
+            <input type="email" class="form-control" name="email" required autocomplete="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                title="Digite um e-mail válido" />
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Senha</label>
-            <input type="password" class="form-control" name="password" required />
+            <input type="password" class="form-control" name="password" required autocomplete="new-password" />
+        </div>
+        <div class="mb-3">
+            <label for="user_type" class="form-label">Tipo de Usuário</label>
+            <select class="form-select" name="user_type" required>
+                <option value="client">Cliente</option>
+                <option value="provider">Prestador</option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
 </div>
+
 {% endblock %}

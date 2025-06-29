@@ -21,8 +21,8 @@ urlpatterns = [
     # Home (sem autenticação)
     path('', home_view, name='home'),
 
-    # URLs de template do app users (login, logout, perfil, cadastro)
-    path('', include('users.urls_templates', namespace='users')),
+    # URLs baseadas em template do app users (login, logout, perfil, cadastro)
+    path('', include('users.urls', namespace='users')),
 
     # Admin
     path('admin/', admin.site.urls),

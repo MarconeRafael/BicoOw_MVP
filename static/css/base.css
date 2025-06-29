@@ -1,0 +1,39 @@
+/* static/css/base.css */
+:root {
+    --bs-yellow: #f9d71c;
+    --bs-black: #000000;
+    --bs-white: #ffffff;
+    --bs-accent: #ff5722;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bs-white);
+    color: var(--bs-black);
+}
+.navbar {
+    background-color: var(--bs-yellow);
+}
+.navbar-brand, .nav-link, .nav-link.btn-link {
+    color: var(--bs-black) !important;
+}
+.nav-link:hover, .nav-link.btn-link:hover {
+    color: var(--bs-accent) !important;
+    text-decoration: none;
+}
+.btn-highlight {
+    background-color: var(--bs-yellow);
+    border: none;
+    color: var(--bs-black);
+}
+.btn-highlight:hover {
+    background-color: var(--bs-accent);
+    color: var(--bs-white);
+}
+footer {
+    background-color: var(--bs-black);
+    color: var(--bs-yellow);
+    padding: 1rem 0;
+    text-align: center;
+}
