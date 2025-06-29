@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Editar Perfil{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Editar Perfil</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="first_name" class="form-label">Nome</label>
+            <input type="text" class="form-control" name="first_name" id="first_name" value="{{ user.first_name }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Sobrenome</label>
+            <input type="text" class="form-control" name="last_name" id="last_name" value="{{ user.last_name }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" name="email" id="email" value="{{ user.email }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        <a href="{% url 'users:user_profile' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
