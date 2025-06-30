@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from cervice.models import Service
+from cervice.models import ServiceRequest  # Ajuste para o novo model
 
 class Appointment(models.Model):
     STATUS_CHOICES = [
@@ -21,7 +21,7 @@ class Appointment(models.Model):
         related_name='appointments_prestador'
     )
     service = models.ForeignKey(
-        Service,
+        ServiceRequest,            # Alterado aqui
         on_delete=models.CASCADE,
         related_name='appointments'
     )

@@ -6,6 +6,9 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from .views import home_view
 
+# Importar dashboard_view do users.views
+from users.views import dashboard_view
+
 schema_view = get_schema_view(
     openapi.Info(
         title="BicoOw API",
@@ -18,6 +21,9 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    # Dashboard antes do home
+    path('dashboard/', dashboard_view, name='dashboard'),
+
     # Home (sem autenticação)
     path('', home_view, name='home'),
 

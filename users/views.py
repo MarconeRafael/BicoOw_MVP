@@ -34,6 +34,10 @@ def consulta_cep(request):
 
 # ---------- VIEWS BASEADAS EM TEMPLATE ----------
 @login_required
+def dashboard_view(request):
+    return render(request, 'users/dashboard.html', {'user': request.user})
+
+@login_required
 def perfil_view(request):
     return render(request, 'users/perfil.html', {'user': request.user})
 
@@ -82,7 +86,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('users:user_profile')
+            return redirect('users:dashboard')  # redireciona para dashboard
         messages.error(request, 'Usuário ou senha inválidos.')
     return render(request, 'users/login.html')
 
@@ -91,7 +95,7 @@ def register_view(request):
     if request.method == 'POST':
         data = request.POST
         email = data.get('email', '').strip()
-        user_type = data.get('user_type', 'client')  # <-- Adicionado aqui
+        user_type = data.get('user_type', 'client')
 
         if UserModel.objects.filter(username=email).exists():
             messages.error(request, 'E-mail já cadastrado.')
@@ -102,7 +106,7 @@ def register_view(request):
                 first_name=data.get('first_name', '').strip(),
                 last_name=data.get('last_name', '').strip(),
                 password=data.get('password'),
-                user_type=user_type  # <-- Passa o user_type corretamente
+                user_type=user_type
             )
             if user_type == 'client':
                 ClienteProfile.objects.get_or_create(user=user)
@@ -110,7 +114,7 @@ def register_view(request):
                 PrestadorProfile.objects.get_or_create(user=user)
 
             login(request, user)
-            return redirect('users:user_profile')
+            return redirect('users:dashboard')  # redireciona para dashboard
 
     return render(request, 'users/register.html')
 

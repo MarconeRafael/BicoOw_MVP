@@ -1,20 +1,20 @@
 from rest_framework import serializers
 from .models import Appointment
-from cervice.models import Service
-from cervice.serializers import ServiceSerializer
+from cervice.models import ServiceRequest
+from cervice.serializers import ServiceRequestSerializer
 from users.serializers import UserSerializer
 
 class AppointmentSerializer(serializers.ModelSerializer):
     cliente = UserSerializer(read_only=True)
     prestador = UserSerializer(read_only=True)
-    service = ServiceSerializer(read_only=True)
+    service = ServiceRequestSerializer(read_only=True)
     service_id = serializers.PrimaryKeyRelatedField(
-        queryset=Service.objects.all(),
+        queryset=ServiceRequest.objects.all(),
         source='service',
         write_only=True
     )
     prestador_id = serializers.PrimaryKeyRelatedField(
-        queryset=Service.objects.none(),  # inicial vazio
+        queryset=ServiceRequest.objects.none(),  # inicial vazio
         source='prestador',
         write_only=True
     )
@@ -38,18 +38,18 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Ajusta queryset de prestadores com base no service_id passado
         service_id = None
         if self.initial_data:
             service_id = self.initial_data.get('service_id') or self.initial_data.get('service')
         if service_id:
             try:
-                service = Service.objects.get(pk=service_id)
-                # Ajuste aqui para obter queryset de prestadores compatíveis com o serviço
-                # Exemplo genérico:
-                prestadores_qs = service.prestador.__class__.objects.filter(pk=service.prestador.pk)
+                service = ServiceRequest.objects.get(pk=service_id)
+                # Exemplo genérico: filtra prestadores com perfil provider (ajuste conforme sua regra)
+                from users.models import User
+                prestadores_qs = User.objects.filter(user_type='provider')
                 self.fields['prestador_id'].queryset = prestadores_qs
-            except Service.DoesNotExist:
-                self.fields['prestador_id'].queryset = Service.objects.none()
+            except ServiceRequest.DoesNotExist:
+                self.fields['prestador_id'].queryset = User.objects.none()
         else:
-            self.fields['prestador_id'].queryset = Service.objects.none()
+            from users.models import User
+            self.fields['prestador_id'].queryset = User.objects.none()
