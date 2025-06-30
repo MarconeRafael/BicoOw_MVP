@@ -31,6 +31,7 @@ def consulta_cep(request):
         'estado': data.get('uf'),
     })
 
+
 # ---------- VIEWS BASEADAS EM TEMPLATE ----------
 @login_required
 def perfil_view(request):

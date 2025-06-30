@@ -10,92 +10,139 @@
   <form method="POST" action="{% url 'users:editar_perfil' %}">
     {% csrf_token %}
 
-    <!-- Campos comuns a todos os usuários -->
+    <!-- Comuns a todos os usuários -->
     <div class="mb-3">
       <label for="first_name" class="form-label">Nome</label>
-      <input type="text" id="first_name" name="first_name" class="form-control" value="{{ user.first_name }}" placeholder="Seu nome (opcional)" />
+      <input type="text" id="first_name" name="first_name" class="form-control"
+             value="{{ user.first_name }}" placeholder="Seu nome (opcional)" />
     </div>
 
     <div class="mb-3">
       <label for="last_name" class="form-label">Sobrenome</label>
-      <input type="text" id="last_name" name="last_name" class="form-control" value="{{ user.last_name }}" placeholder="Seu sobrenome (opcional)" />
+      <input type="text" id="last_name" name="last_name" class="form-control"
+             value="{{ user.last_name }}" placeholder="Seu sobrenome (opcional)" />
     </div>
 
     <div class="mb-3">
       <label for="email" class="form-label">E-mail</label>
-      <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" placeholder="Seu e-mail (opcional)" />
+      <input type="email" id="email" name="email" class="form-control"
+             value="{{ user.email }}" placeholder="Seu e-mail (opcional)" />
     </div>
 
     <div class="mb-3">
       <label for="phone" class="form-label">Telefone</label>
-      <input type="text" id="phone" name="phone" class="form-control" value="{{ user.phone }}" placeholder="Telefone (opcional)" />
+      <input type="text" id="phone" name="phone" class="form-control"
+             value="{{ user.phone }}" placeholder="Telefone (opcional)" />
     </div>
 
     <div class="mb-3">
       <label for="bio" class="form-label">Biografia</label>
-      <textarea id="bio" name="bio" class="form-control" rows="3" placeholder="Conte um pouco sobre você (opcional)">{{ user.bio }}</textarea>
+      <textarea id="bio" name="bio" class="form-control" rows="3"
+                placeholder="Conte um pouco sobre você (opcional)">{{ user.bio }}</textarea>
     </div>
 
     {% if user.user_type == 'client' %}
-      <hr />
-      <h4>Informações do Cliente</h4>
+      {% with user.cliente_profile as perfil %}
+        <!-- Endereço e localização -->
+        <div class="mb-3">
+          <label for="cep" class="form-label">CEP</label>
+          <input type="text" class="form-control" name="cep" id="cep" maxlength="9"
+                 value="{{ perfil.cep }}" placeholder="00000-000" required />
+        </div>
 
-      <div class="mb-3">
-        <label for="endereco" class="form-label">Endereço</label>
-        <input type="text" id="endereco" name="endereco" class="form-control" value="{{ user.cliente_profile.endereco }}" placeholder="Endereço (opcional)" />
-      </div>
+        <div class="mb-3">
+          <label for="endereco" class="form-label">Endereço</label>
+          <input type="text" class="form-control" name="endereco" id="endereco"
+                 value="{{ perfil.endereco }}" />
+        </div>
 
-      <div class="mb-3">
-        <label for="data_nascimento" class="form-label">Data de Nascimento</label>
-        <input type="date" id="data_nascimento" name="data_nascimento" class="form-control" value="{{ user.cliente_profile.data_nascimento|date:'Y-m-d' }}" placeholder="Data de nascimento (opcional)" />
-      </div>
+        <div class="mb-3">
+          <label for="cidade" class="form-label">Cidade</label>
+          <input type="text" class="form-control" name="cidade" id="cidade"
+                 value="{{ perfil.cidade }}" />
+        </div>
 
+        <div class="mb-3">
+          <label for="estado" class="form-label">Estado</label>
+          <input type="text" class="form-control" name="estado" id="estado" maxlength="2"
+                 value="{{ perfil.estado }}" />
+        </div>
+
+        <div class="mb-3">
+          <label for="data_nascimento" class="form-label">Data de Nascimento</label>
+          <input type="date" id="data_nascimento" name="data_nascimento" class="form-control"
+                 value="{{ perfil.data_nascimento|date:'Y-m-d' }}" />
+        </div>
+      {% endwith %}
     {% elif user.user_type == 'provider' %}
-      <hr />
-      <h4>Informações do Prestador</h4>
+      {% with user.prestador_profile as perfil %}
+        <!-- Endereço e localização -->
+        <div class="mb-3">
+          <label for="cep" class="form-label">CEP</label>
+          <input type="text" class="form-control" name="cep" id="cep" maxlength="9"
+                 value="{{ perfil.cep }}" placeholder="00000-000" required />
+        </div>
 
-      <div class="mb-3">
-        <label for="especialidade" class="form-label">Especialidade</label>
-        <input type="text" id="especialidade" name="especialidade" class="form-control" value="{{ user.prestador_profile.especialidade }}" placeholder="Especialidade (opcional)" />
-      </div>
+        <div class="mb-3">
+          <label for="endereco" class="form-label">Endereço</label>
+          <input type="text" class="form-control" name="endereco" id="endereco"
+                 value="{{ perfil.endereco }}" />
+        </div>
 
-      <div class="mb-3">
-        <label for="experiencia" class="form-label">Experiência</label>
-        <textarea id="experiencia" name="experiencia" class="form-control" rows="3" placeholder="Conte sua experiência (opcional)">{{ user.prestador_profile.experiencia }}</textarea>
-      </div>
+        <div class="mb-3">
+          <label for="cidade" class="form-label">Cidade</label>
+          <input type="text" class="form-control" name="cidade" id="cidade"
+                 value="{{ perfil.cidade }}" />
+        </div>
 
-      <div class="mb-3">
-        <label for="endereco" class="form-label">Endereço</label>
-        <input type="text" id="endereco" name="endereco" class="form-control" value="{{ user.prestador_profile.endereco }}" placeholder="Endereço (opcional)" />
-      </div>
+        <div class="mb-3">
+          <label for="estado" class="form-label">Estado</label>
+          <input type="text" class="form-control" name="estado" id="estado" maxlength="2"
+                 value="{{ perfil.estado }}" />
+        </div>
 
-      <div class="mb-3">
-        <label for="tempo_atuacao_anos" class="form-label">Tempo de Atuação (anos)</label>
-        <input type="number" min="0" id="tempo_atuacao_anos" name="tempo_atuacao_anos" class="form-control" value="{{ user.prestador_profile.tempo_atuacao_anos }}" placeholder="Anos de experiência (opcional)" />
-      </div>
+        <div class="mb-3">
+          <label for="especialidade" class="form-label">Especialidade</label>
+          <input type="text" id="especialidade" name="especialidade" class="form-control"
+                 value="{{ perfil.especialidade }}" placeholder="Especialidade (opcional)" />
+        </div>
 
-      <div class="mb-3">
-        <label for="portfolio_url" class="form-label">URL do Portfólio</label>
-        <input type="url" id="portfolio_url" name="portfolio_url" class="form-control" value="{{ user.prestador_profile.portfolio_url }}" placeholder="Link para portfólio (opcional)" />
-      </div>
+        <div class="mb-3">
+          <label for="experiencia" class="form-label">Experiência</label>
+          <textarea id="experiencia" name="experiencia" class="form-control" rows="3"
+                    placeholder="Conte sua experiência (opcional)">{{ perfil.experiencia }}</textarea>
+        </div>
 
-      <div class="mb-3">
-        <label for="preco_hora" class="form-label">Preço por Hora (R$)</label>
-        <input type="number" min="0" step="0.01" id="preco_hora" name="preco_hora" class="form-control" value="{{ user.prestador_profile.preco_hora }}" placeholder="Preço/hora (opcional)" />
-      </div>
+        <div class="mb-3">
+          <label for="tempo_atuacao_anos" class="form-label">Tempo de Atuação (anos)</label>
+          <input type="number" min="0" id="tempo_atuacao_anos" name="tempo_atuacao_anos" class="form-control"
+                 value="{{ perfil.tempo_atuacao_anos }}" />
+        </div>
 
-      <div class="mb-3">
-        <label for="disponibilidade" class="form-label">Disponibilidade</label>
-        <input type="text" id="disponibilidade" name="disponibilidade" class="form-control" value="{{ user.prestador_profile.disponibilidade }}" placeholder="Ex.: Seg a Sex, 9h-18h (opcional)" />
-      </div>
-      
-      <!-- Fotos e avaliações são gerenciadas em páginas separadas -->
+        <div class="mb-3">
+          <label for="portfolio_url" class="form-label">URL do Portfólio</label>
+          <input type="url" id="portfolio_url" name="portfolio_url" class="form-control"
+                 value="{{ perfil.portfolio_url }}" />
+        </div>
 
+        <div class="mb-3">
+          <label for="preco_hora" class="form-label">Preço por Hora (R$)</label>
+          <input type="number" min="0" step="0.01" id="preco_hora" name="preco_hora" class="form-control"
+                 value="{{ perfil.preco_hora }}" />
+        </div>
+
+        <div class="mb-3">
+          <label for="disponibilidade" class="form-label">Disponibilidade</label>
+          <input type="text" id="disponibilidade" name="disponibilidade" class="form-control"
+                 value="{{ perfil.disponibilidade }}" />
+        </div>
+      {% endwith %}
     {% endif %}
 
     <button type="submit" class="btn btn-primary">Salvar alterações</button>
   </form>
 </div>
 
-<script src="{% static 'js/perfil.js' %}"></script>
+<script src="{% static 'js/cep.js' %}"></script>
+<script src="{% static 'js/telefone.js' %}"></script>
 {% endblock %}
